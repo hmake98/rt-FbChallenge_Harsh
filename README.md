@@ -16,19 +16,20 @@ https://rtcamp-fb-challenge.000webhostapp.com/
 
 ### Screenshots
 1. Login Page
-![login](/screenshots/rtcamp-fb-challenge-login.png)
+![login](https://user-images.githubusercontent.com/23061515/44581890-2834b300-a7bd-11e8-9680-6a3ec84e31c5.png)
 
 2. Home Page
-![home](/screenshots/rtcamp-fb-challenge-home.png)
+![home](https://user-images.githubusercontent.com/23061515/44581891-2834b300-a7bd-11e8-9bd4-130df0765f7f.png)
 
 3. Slideshow Page
-![slideshow](/screenshots/rtcamp-fb-challenge-slideshow.png)
+![slideshow](https://user-images.githubusercontent.com/23061515/44581892-28cd4980-a7bd-11e8-8939-fcdbed649387.png)
 
 4. Downloads Page
-![downloads](/screenshots/rtcamp-fb-challenge-downloads.png)
+![downloads](https://user-images.githubusercontent.com/23061515/44581893-28cd4980-a7bd-11e8-8db9-f18c63250820.png)
 
 5. Google account signin
-![signin](/screenshots/accounts-signin.png)
+![signin](https://user-images.githubusercontent.com/23061515/44581889-279c1c80-a7bd-11e8-8389-de7bbf4b2f4f.png)
+
 
 ### Libraries
 * Bootstrap 4 (https://getbootstrap.com/)
