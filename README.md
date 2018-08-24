@@ -46,5 +46,3 @@ https://rtcamp-fb-challenge.000webhostapp.com/
 * W3schools
 * Bootstrap
 * GitHub
-
-#### Project By : RtCamp
