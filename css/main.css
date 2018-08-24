@@ -1,0 +1,41 @@
+.wrap{
+    height: 100%;
+    width: 100%;
+    background: #3e3e3e;
+}
+
+.mySlides {
+    width: 100%;
+    height: 100%;
+}
+
+.btn-back{
+    position: absolute;
+    background: #4267B2;
+    color: #ffffff;
+    border: none;
+    outline: none;
+}
+
+.btn-back:hover{
+    background: #eee;
+    color: #3e3e3e;
+}
+
+@media only screen and (max-width: 600px) {
+    .wrap{
+        background: #3e3e3e;
+        height: 100%;
+    }
+
+    .mySlides {
+        width: 100%;
+        height: 50%;
+    }
+
+    .btn-back{
+        position: relative;
+        background: #4267B2;
+        width: 100%;
+    }
+}

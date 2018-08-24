@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Google Drive App</title>
+        <link href="./style.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    </head>
+    <body>
+    <div class="container">
+    <div class="wrapper">
+        <ul>
+        <?php foreach ($files as $file) { ?>
+            <li><?php echo $file; ?></li>
+        <?php } ?>
+        </ul>
+        <form method="post" action="<?php echo $url; ?>">
+            <input class="btn btn-primary" type="submit" value="Upload" name="submit">
+        </form>
+        </div>
+    </div>
+    </body>
+</html>
