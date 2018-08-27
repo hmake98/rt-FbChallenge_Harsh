@@ -82,12 +82,11 @@
         }
 
         function Fb_login() {
-            FB.login(function (response) {
-                if (response.authResponse) {
-                    checkLoginState();
-                } else {
-                    console.log('User cancelled login or did not fully authorize.');
-                }
+            FB.login(function(response) {
+                checkLoginState();
+            }, {
+                scope: 'email, user_hometown, user_photos, user_birthday, user_gender',
+                auth_type: 'rerequest'
             });
         }
 
