@@ -46,3 +46,7 @@ https://rtcamp-fb-challenge.000webhostapp.com/
 * W3schools
 * Bootstrap
 * GitHub
+
+### Current Issues
+* Albums Components needs reload for appear.
+* Photos quality is not good. API does not provide good quality Photos.
