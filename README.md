@@ -17,19 +17,19 @@ https://rtcamp-fb-challenge.000webhostapp.com/
 
 ### Screenshots
 1. Login Page
-![login](https://user-images.githubusercontent.com/23061515/44581890-2834b300-a7bd-11e8-9680-6a3ec84e31c5.png)
+![login](https://user-images.githubusercontent.com/23061515/44948323-3461e580-ae39-11e8-810e-9d16c273a0b9.png)
 
 2. Home Page
-![home](https://user-images.githubusercontent.com/23061515/44581891-2834b300-a7bd-11e8-9bd4-130df0765f7f.png)
+![home](https://user-images.githubusercontent.com/23061515/44948321-33c94f00-ae39-11e8-9b00-01fb3efbaa24.png)
 
 3. Slideshow Page
-![slideshow](https://user-images.githubusercontent.com/23061515/44581892-28cd4980-a7bd-11e8-8939-fcdbed649387.png)
+![slideshow](https://user-images.githubusercontent.com/23061515/44948322-33c94f00-ae39-11e8-880f-f0181518706e.png)
 
 4. Downloads Page
-![downloads](https://user-images.githubusercontent.com/23061515/44581893-28cd4980-a7bd-11e8-8db9-f18c63250820.png)
+![downloads](https://user-images.githubusercontent.com/23061515/44948325-34fa7c00-ae39-11e8-998c-13b8824652a3.png)
 
-5. Google account signin
-![signin](https://user-images.githubusercontent.com/23061515/44581889-279c1c80-a7bd-11e8-8389-de7bbf4b2f4f.png)
+5. Drive upload Page
+![signin](https://user-images.githubusercontent.com/23061515/44948326-34fa7c00-ae39-11e8-84af-297363dc6944.png)
 
 ### APIs
 * Facebook Graph API
