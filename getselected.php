@@ -15,63 +15,66 @@ $res_album = file_get_contents("https://graph.facebook.com/me?fields=albums&acce
 $myData = json_decode($res_album, true);
 $myData_albums = $myData['albums']['data'];
 
-//photos counts
-$res_photos = file_get_contents("https://graph.facebook.com/me?fields=albums{photos{picture,id}}&access_token=$token");
-$myData_photos = json_decode($res_photos, true);
-$myData_photos_ac = $myData_photos['albums']['data'];
-$my_album_photos_arr = @$myData_photos_ac[$_GET['id']]['photos']['data'];
+//high quality images 
+$my_fullsize_photos = file_get_contents("https://graph.facebook.com/me?fields=albums{photos{picture,images}}&access_token=$token");
+$my_fullsize_photos_data = json_decode($my_fullsize_photos, true);
+$my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
 
-
-$selected_arr = array();
-$myAlbumsIdArr = array();
-
-for ($i = 0; $i < sizeof($myData_albums); $i++) {
-    array_push($myAlbumsIdArr, $myData_photos_ac[$i]['id']);
+$my_fullsize_photos_photos = array();
+$myarr_id = array();
+for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
+  $temp_1 = array();
+  for($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$i]['photos']['data']); $j++){
+    array_push($temp_1, $my_fullsize_photos_albums[$i]['photos']['data'][$j]['images'][2]['source']);
+  }
+  array_push($myarr_id, $my_fullsize_photos_albums[$i]['id']);
+  $my_fullsize_photos_photos[$my_fullsize_photos_albums[$i]['id']] = $temp_1;
 }
 
-$my_sel_photos_arr = array();
-$all_photos_data = array();
-
+$selected_arr = array();
+$selected_photos_data = array();
 if (isset($_POST['submit'])) {
     if (!empty($_POST['check_list'])) {
         foreach ($_POST['check_list'] as $selected) {
-            //echo $selected . "</br>";
             array_push($selected_arr, $selected);
-            if(in_array($selected, $myAlbumsIdArr)){
-                for($j = 0; $j < sizeof($myData_photos_ac); $j++){
-                    if($selected == $myData_photos_ac[$j]['id']){
-                        $key = array_search($selected, $myAlbumsIdArr);
-                        array_push($my_sel_photos_arr, @$myData_photos_ac[$key]['photos']['data']);
-                    }
-                }
+        }
+
+        for($g = 0; $g < sizeof($selected_arr); $g++){
+            if(in_array($selected_arr[$g], $myarr_id)){
+                array_push($selected_photos_data, $my_fullsize_photos_photos[$selected_arr[$g]]);
             }
         }
 
-        for ($k = 0; $k < sizeof($my_sel_photos_arr); $k++) {
-            for ($l = 0; $l < sizeof($my_sel_photos_arr[$k]); $l++) {
-                array_push($all_photos_data, $my_sel_photos_arr[$k][$l]['picture']);
+        $all_albums_data = array();
+        for($r = 0; $r < sizeof($selected_photos_data); $r++){
+            for($s = 0; $s < sizeof($selected_photos_data[$r]); $s++){
+                $der = $selected_photos_data[$r];
+                array_push($all_albums_data, $der[$s]);
             }
         }
 
-        $path = './temp/' . $myData_id['id'] . '/sel_albums';
+        $path = './temp/' . $myData_id['id'];
         $albumnamePath = "";
         if (!file_exists($path)) {
-            $albumnamePath = "./temp/" . $myData_id['id'] . "/sel_albums";
+            $albumnamePath = "./temp/" . $myData_id['id'];
             mkdir($albumnamePath);
         }
-            $files = $all_photos_data;
 
-            $zip = new ZipArchive();
-            $tmp_file = $path . '/selected_albums.zip';
-            $zip->open($tmp_file, ZipArchive::CREATE);
 
-            foreach ($files as $file) {
-                $download_file = file_get_contents($file);
-                $zip->addFromString(basename($file), $download_file);
-            }
+        $files = $all_albums_data;
 
-            @$zip->close();
-            echo "<div class='alert alert-success' role='alert'>
+        $zip = new ZipArchive();
+        $tmp_file = $path . '/selected_photos.zip';
+        $zip->open($tmp_file, ZipArchive::CREATE);
+
+        foreach ($files as $file) {
+            $download_file = file_get_contents($file);
+            $zip->addFromString(basename($file.'.jpg'), $download_file);
+        }
+
+        @$zip->close();
+        
+        echo "<div class='alert alert-success' role='alert'>
                 Album archived successfully — check it out!
                 </div>
 
@@ -79,14 +82,14 @@ if (isset($_POST['submit'])) {
                     <div class='jumbotron jumbotron-fluid'>
                         <div class='container'>
                             <h1 class='display-4'> Link: </h1>
-                            <p class='lead'> <a href='" . $path . "/selected_albums.zip' download> '" . $path . "/selected_albums.zip' </a> </p>
+                            <p class='lead'> Click <a href='" . $path . "/selected_photos.zip' download> here </a> for Download. </p>
                         </div>
                     </div>
                  </div>";
+    
+    ini_set('max_execution_time', 300);
     }
 }
-
-ini_set('max_execution_time', 300);
 
 ?>
 </body>

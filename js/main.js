@@ -1,13 +1,13 @@
 var slideIndex = 1;
-showDivs(slideIndex);
-
-function plusDivs(n) {
-    showDivs(slideIndex += n);
+function plusDivs(n, no) {
+    slideId = no;
+    showDivs(slideIndex += n, no);
 }
 
-function showDivs(n) {
+function showDivs(n, no) {
     var i;
-    x = document.getElementsByClassName('mySlides');
+    var sli = 'mySlides'+no;
+    x = document.getElementsByClassName(sli);
     if (n > x.length) {
         slideIndex = 1;
     }
@@ -18,7 +18,6 @@ function showDivs(n) {
         x[i].style.display = 'none';
     }
     x[slideIndex-1].style.display = 'block';
-
 }
 
 //document.getElementById('clicked').click();

@@ -20,17 +20,27 @@
     $all_photos_data = array();
     $res_photos = array();
 
+    //high quality images
+    $my_fullsize_photos = file_get_contents("https://graph.facebook.com/me?fields=albums{photos{picture,images}}&access_token=$token");
+    $my_fullsize_photos_data = json_decode($my_fullsize_photos, true);
+    $my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
+    $my_fullsize_photos_photos = array();
 
-    for ($i = 0; $i < sizeof(@$myData_photos_ac); $i++) {
-        array_push($res_photos, @$myData_photos_ac[$i]['photos']['data']);
+    for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
+        $temp_1 = array();
+        for ($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$i]['photos']['data']); $j++) {
+            array_push($temp_1, $my_fullsize_photos_albums[$i]['photos']['data'][$j]['images'][2]['source']);
+        }
+        $my_fullsize_photos_photos[$i] = $temp_1;
     }
 
-    for ($k = 0; $k < sizeof($myData_photos_ac); $k++) {
-        for ($j = 0; $j < sizeof($res_photos[$k]); $j++) {
-            array_push($all_photos_data, $res_photos[$k][$j]['picture']);
+    $links_arr = array();
+
+    for ($h = 0; $h < sizeof($my_fullsize_photos_photos); $h++) {
+        for ($e = 0; $e < sizeof($my_fullsize_photos_photos[$h]); $e++) {
+            array_push($links_arr, $my_fullsize_photos_photos[$h][$e]);
         }
     }
-
 
     $path = './temp/'.$myData_id['id'];
     $albumnamePath = "";
@@ -48,12 +58,12 @@
                     <div class='jumbotron jumbotron-fluid'>
                         <div class='container'>
                             <h1 class='display-4'> Link: </h1>
-                            <p class='lead'> Click<a href='" . $path . "/albums.zip' download>  </a> </p>
+                            <p class='lead'> Click <a href='" . $path . "/albums.zip' download> here </a> to Download. </p>
                         </div>
                     </div>
                  </div>";
-    } else {
-    $files = $all_photos_data;
+    } else { 
+    $files = $links_arr;
 
     $zip = new ZipArchive();
     $tmp_file = $path.'/albums.zip';
@@ -61,7 +71,7 @@
 
     foreach ($files as $file) {
         $download_file = file_get_contents($file);
-        $zip->addFromString(basename($file), $download_file);
+        $zip->addFromString(basename($file.'.jpg'), $download_file);
     }
 
     @$zip->close();

@@ -17,7 +17,7 @@ if (isset($_GET['code'])) {
     $client->authenticate();
 }
 $token = $_COOKIE['token'];
-@$res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
+$res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
 $myData_id = json_decode($res_id, true);
 $id = $myData_id['id'];
 
@@ -30,18 +30,19 @@ while ($file = $dir->read()) {
         $files[] = $file;
     }
 }
+
 $dir->close();
+
 if (!empty($_POST)) {
     $client->setAccessToken($_SESSION['accessToken']);
     $service = new Google_DriveService($client);
-    $file->setParents([{'id': }])
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $file = new Google_DriveFile();  
+    $file = new Google_DriveFile();
     foreach ($files as $file_name) {
-        $file_path = './temp/'.$id.'/';
+        $file_path = 'temp/' . $id . '/';
         $mime_type = finfo_file($finfo, $file_path);
         $file->setTitle($file_name);
-        $file->setDescription('This is a '.$mime_type.' document');
+        $file->setDescription('This is a ' . $mime_type . ' document');
         $file->setMimeType($mime_type);
         $service->files->insert(
             $file,
@@ -50,9 +51,10 @@ if (!empty($_POST)) {
                 'mimeType' => $mime_type
             )
         );
-    }
     finfo_close($finfo);
-    header('location:'.$url);exit;
+    header('location:' . $url);
+    exit;
+    }
 }
-include 'index.phtml';
+include('./index.phtml');
 ?>

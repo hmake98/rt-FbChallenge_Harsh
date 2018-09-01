@@ -23,23 +23,32 @@
     $all_photos_data = array();
     $res_photos = array();
 
-    if (empty($my_album_photos_arr)) {
+    //high quality images 
+    $my_fullsize_photos = file_get_contents("https://graph.facebook.com/me?fields=albums{photos{picture,images}}&access_token=$token");
+    $my_fullsize_photos_data = json_decode($my_fullsize_photos, true);
+    $my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
+    $my_fullsize_photos_photos = array();
+
+    for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
+        $temp_1 = array();
+        for ($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$_GET['id']]['photos']['data']); $j++) {
+            array_push($temp_1, $my_fullsize_photos_albums[$_GET['id']]['photos']['data'][$j]['images'][2]['source']);
+        }
+    }
+
+    if (empty($temp_1)) {
         echo "<div class='alert alert-danger' role='alert'>
                 Ops! No images found in this album.
                 </div>";
     } else {
-        $path = './temp/'.$myData_id['id'].'/'.$myalbum['name'];
+        $path = './temp/'.$myData_id['id'];
         $albumnamePath = "";
         if (!file_exists($path)) {
-            $albumnamePath = "./temp/".$myData_id['id']."/".$myalbum['name'];
+            $albumnamePath = "./temp/".$myData_id['id'];
             mkdir($albumnamePath);
         }
 
-        for ($i = 0; $i < sizeof($my_album_photos_arr); $i++) {
-            array_push($res_photos_urls, $my_album_photos_arr[$i]['picture']);
-        }
-
-        if(file_exists($path.'/'.$myalbum['id'].'.zip')){
+        if(file_exists($path.'/'.$myalbum['name'].'.zip')){
             echo "<div class='alert alert-success' role='alert'>
                 Album already downloaded on server — check it out!
                 </div>
@@ -48,20 +57,20 @@
                     <div class='jumbotron jumbotron-fluid'>
                         <div class='container'>
                             <h1 class='display-4'> Link: </h1>
-                            <p class='lead'> <a href='" . $path . "/" . $myalbum['id'] . ".zip' download> '" . $path . "/" . $myalbum['id'] . ".zip' </a> </p>
+                            <p class='lead'> Click <a href='" . $path . "/" . $myalbum['name'] . ".zip' download> here </a> to Download. </p>
                         </div>
                     </div>
                  </div>";
         } else {
-        $files = $res_photos_urls;
+        $files = $temp_1;
 
         $zip = new ZipArchive();
-        $tmp_file = $path.'/'. $myalbum['id'].'.zip';
+        $tmp_file = $path.'/'. $myalbum['name'].'.zip';
         $zip->open($tmp_file, ZipArchive::CREATE);
 
         foreach ($files as $file) {
             $download_file = file_get_contents($file);
-            $zip->addFromString(basename($file), $download_file);
+            $zip->addFromString(basename($file.'.jpg'), $download_file);
         }
 
         $zip->close();
@@ -76,7 +85,7 @@
                     <div class='jumbotron jumbotron-fluid'>
                         <div class='container'>
                             <h1 class='display-4'> Link: </h1>
-                            <p class='lead'> <a href='".$path."/".$myalbum['id'].".zip' download> '".$path."/".$myalbum['id'].".zip' </a> </p>
+                            <p class='lead'> Click <a href='".$path."/".$myalbum['name'].".zip' download> here </a> to Download. </p>
                         </div>
                     </div>
                  </div>";
