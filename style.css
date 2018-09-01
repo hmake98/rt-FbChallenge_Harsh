@@ -1,0 +1,220 @@
+body{
+    background: #E9EBEE;
+    width: 100%;
+    height: 100%;
+    color: #343A40;
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: grey;
+}
+
+.bgcolor{
+    background-image: url("https://img00.deviantart.net/31cf/i/2015/028/8/6/super_hero_whatsapp_background_by_x_ama-d8fr7iz.jpg");
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 5%;
+    height: 50%;
+}
+
+.slide-left {
+    animation-duration: 1s;
+    animation-name: slidein-left;
+}
+
+@keyframes slidein-left {
+    from {
+        margin-left: 50%;
+        width: 100%;
+    }
+    to {
+        margin-left: 0%;
+        width: 100%;
+    }
+}
+
+.slide-right {
+    animation-duration: 1s;
+    animation-name: slidein-right;
+}
+
+@keyframes slidein-right {
+    from {
+        margin-right: 50%;
+        width: 100%;
+    }
+    to {
+        margin-right: 0%;
+        width: 100%;
+    }
+}
+
+.container{
+    margin-bottom: 2em;
+}
+
+#profile_picture:hover{
+    opacity: 0.5;
+    cursor: pointer;
+    -webkit-transition: opacity 1s;
+}
+
+.albums-border{
+    padding: 0px;
+    width: 100%;
+}
+
+.block{
+    cursor: pointer;
+    margin: 3em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.block:hover{
+    transition: all .20s linear;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: -1px 10px 29px 0px rgba(0, 0, 0, 0.8);
+}
+
+.block img{
+    padding: 0.5em;
+}
+
+.img-circle{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    border-radius: 50%;
+    margin-bottom: 2em;
+}
+
+.heading-text{
+    margin: 3em 0em;
+    height: 80%;
+    border: 1px solid #eee;
+    padding: 1em 1em 0em 1em;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all .25s linear;
+    border-radius: 10px;
+}
+
+.heading-text:hover{
+    box-shadow: -1px 10px 29px 0px rgba(0, 0, 0, 0.8);
+}
+
+.myfooter{
+    margin-bottom: 0px;
+    color: #FFFFFF;
+    width: 100%;
+    display: block;
+    bottom: 0;
+    position: relative;
+    margin-top: 10em;
+    background-color: #4267B2;
+}
+
+.myfooter div a{
+    text-decoration: none;
+    color: #eee;
+}
+
+.navbar h2 {
+    color: #ffffff;
+}
+
+.navbar-brand {
+    font-family: 'Lobster', cursive;
+}
+
+.navbar {
+    height: 5em;
+    box-shadow: 3px 2px 2px;
+    background-color: #4267B2;
+}
+
+.btn {
+    border:none;
+    transition: all .25s linear;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+    background-color: #4267B2;
+    color: white;
+    border-radius: 2%;
+}
+
+.btn-nav{
+    border-radius: 10px;
+    background-color: #34465d;
+}
+
+.mycheckbox{
+    margin: 10px;
+    width: 25px;
+    height: 25px;
+}
+
+.btn-main{
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: #4267B2;
+    
+}
+
+.btn-main:hover{
+    border:none;
+    background-color: #343A40;
+}
+
+.wrapper{
+    margin: 5em;
+    padding: 3em;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+    background: #eee;
+}
+
+@media only screen and (max-width: 600px) {
+    .img-circle {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    .block{
+        padding: 0em;
+    }
+
+    .btn-main{
+        width: 100%;
+    }
+
+    .myfooter{
+        margin-top: 3%;
+        display: block;
+        padding: 0 5% 0 5%;
+    }
+}
+
+
+
+
