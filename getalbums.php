@@ -5,6 +5,7 @@
 </head>
 <body>
 <?php
+    //getting tokens and files contents from api 
     @$token = $_COOKIE['token'];
     @$res = file_get_contents("https://graph.facebook.com/me?fields=albums&access_token=$token");
     @$res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
@@ -15,6 +16,7 @@
     @$myData_photos = json_decode($res_photos, true);
     @$myData_photos_ac = $myData_photos['albums']['data'];
 
+    //id and album data
     $myData_id = json_decode($res_id, true);
     $myArr = $myData['albums']['data'];
  
@@ -56,6 +58,7 @@
     $myAlbumsNameArr = array();
     $myAlbumsIdArr = array();
 
+    //making directory of id that will contain photos
     $path = './temp/'.$myData_id['id'].'/';
     $usernamePath = "";
     if(!file_exists($path)){
@@ -63,6 +66,7 @@
         mkdir($usernamePath);
     }
 
+    //loop through the albums 
     for($i = 0; $i < sizeof($myArr); $i++) {
         array_push($myAlbumsIdArr, $myData['albums']['data'][$i]['id']);
         array_push($myAlbumsNameArr, $myData['albums']['data'][$i]['name']);
@@ -101,21 +105,25 @@
         </div>
     </form>";
 
+    //lightbox (modal)
     for ($m = 0; $m < sizeof($myArr); $m++) {
-    echo "<div class='modal fade' id='hello".$myAlbumsIdArr[$m]."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+    echo "<div class='modal fade' id='hello".$myAlbumsIdArr[$m]. "' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
             <div class='modal-dialog modal-lg'>
-                <div class='modal-content'>";
+                <div class='modal-content'>
+                <button class='btn btn-primary' type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <i class='fas fa-times fa-2x'></i>
+                </button>";
                 $my_album_photos_arr = @$myData_photos_ac[$m]['photos']['data'];
                 @$id_photos = $myData['albums']['data'][$m]['id'];
                 if (empty($my_album_photos_arr)) {
-                   echo "<h1 style='text-align: center; margin: 5em;'> Ops! No Photos Available in this album </h1>";
+                   echo "<h1 id='ops-msg'> Ops! No Photos Available in this album </h1>";
                 } else {  
                     echo "<div class='wrap'>
                             <div class='w3-content w3-display-container'>";
                             for ($k = 0; $k < sizeof($my_fullsize_photos_photos); $k++) {
                                 for ($l = 0; $l < sizeof($my_fullsize_photos_photos[$id_photos]); $l++) {
                                     $photos = $my_fullsize_photos_photos[$id_photos];    
-                                echo "<img class='mySlides".$myAlbumsIdArr[$m]."' src='".$photos[$l]."' width='100%' height='550px'>";
+                                echo "<img id='slideshow' class='mySlides".$myAlbumsIdArr[$m]."' src='".$photos[$l]."' width='100%' height='550px'>";
                                 }
                             }
                     echo "<button class='w3-button w3-black w3-display-left' onclick=' plusDivs(-1,".$myAlbumsIdArr[$m]. "); '>&#10094;</button>
@@ -128,7 +136,7 @@
         </div>";
     }
 
-
+    //scripts that redirect to the download page
     for($j = 0; $j < sizeof($myAlbumsNameArr); $j++) {
         echo "<script type='text/javascript'>
             

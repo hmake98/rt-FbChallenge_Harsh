@@ -7,6 +7,7 @@
 </head>
 <body>
 <?php
+    //getting token and id
     $token = $_COOKIE['token'];
     $res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
     $myData_id = json_decode($res_id, true);
@@ -26,6 +27,7 @@
     $my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
     $my_fullsize_photos_photos = array();
 
+    //loop through images and store in array
     for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
         $temp_1 = array();
         for ($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$i]['photos']['data']); $j++) {
@@ -34,8 +36,8 @@
         $my_fullsize_photos_photos[$i] = $temp_1;
     }
 
+    //store all images in one array 
     $links_arr = array();
-
     for ($h = 0; $h < sizeof($my_fullsize_photos_photos); $h++) {
         for ($e = 0; $e < sizeof($my_fullsize_photos_photos[$h]); $e++) {
             array_push($links_arr, $my_fullsize_photos_photos[$h][$e]);

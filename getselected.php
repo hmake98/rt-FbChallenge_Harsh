@@ -7,10 +7,12 @@
 </head>
 <body>
 <?php
+//getting token
 $token = $_COOKIE['token'];
 $res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
 $myData_id = json_decode($res_id, true);
 
+//getting albums 
 $res_album = file_get_contents("https://graph.facebook.com/me?fields=albums&access_token=$token");
 $myData = json_decode($res_album, true);
 $myData_albums = $myData['albums']['data'];
@@ -22,6 +24,8 @@ $my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
 
 $my_fullsize_photos_photos = array();
 $myarr_id = array();
+
+//loop though images
 for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
   $temp_1 = array();
   for($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$i]['photos']['data']); $j++){
@@ -31,6 +35,7 @@ for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
   $my_fullsize_photos_photos[$my_fullsize_photos_albums[$i]['id']] = $temp_1;
 }
 
+//getting selected albums
 $selected_arr = array();
 $selected_photos_data = array();
 if (isset($_POST['submit'])) {

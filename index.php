@@ -87,7 +87,7 @@
                 statusChangeCallback(response);
             });
         }
-
+         
         function Fb_login() {
             FB.login(function(response) {
                 checkLoginState();

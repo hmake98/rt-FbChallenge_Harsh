@@ -7,6 +7,7 @@
 </head>
 <body>
 <?php
+    //getting token and albums 
     $token = $_COOKIE['token'];
     $res = file_get_contents("https://graph.facebook.com/me?fields=albums&access_token=$token");
     $res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
@@ -29,6 +30,7 @@
     $my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
     $my_fullsize_photos_photos = array();
 
+    //loop through particular photo
     for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
         $temp_1 = array();
         for ($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$_GET['id']]['photos']['data']); $j++) {
@@ -36,11 +38,13 @@
         }
     }
 
+    //if no images are available in this album 
     if (empty($temp_1)) {
         echo "<div class='alert alert-danger' role='alert'>
                 Ops! No images found in this album.
                 </div>";
     } else {
+        //making path and store that album zip in path
         $path = './temp/'.$myData_id['id'];
         $albumnamePath = "";
         if (!file_exists($path)) {
@@ -48,6 +52,7 @@
             mkdir($albumnamePath);
         }
 
+        //if album is already on server 
         if(file_exists($path.'/'.$myalbum['name'].'.zip')){
             echo "<div class='alert alert-success' role='alert'>
                 Album already downloaded on server — check it out!
