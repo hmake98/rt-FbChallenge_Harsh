@@ -16,20 +16,23 @@ if (isset($_GET['code'])) {
 } elseif (!isset($_SESSION['accessToken'])) {
     $client->authenticate();
 }
+
 $token = $_COOKIE['token'];
 $res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
 $myData_id = json_decode($res_id, true);
 $id = $myData_id['id'];
 
-$files= array();
+//$files= array();
 
 $dir = dir('./temp/'.$id);
 
-while ($file = $dir->read()) {
+/*while ($file = $dir->read()) {
     if ($file != '.' && $file != '..') {
         $files[] = $file;
     }
-}
+}*/
+
+//var_dump($files); die();
 
 $dir->close();
 
@@ -38,10 +41,10 @@ if (!empty($_POST)) {
     $service = new Google_DriveService($client);
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $file = new Google_DriveFile();
-    foreach ($files as $file_name) {
-        $file_path = 'temp/' . $id . '/';
+    //foreach ($files as $file_name) {
+        $file_path = 'temp/' . $id . '/albums.zip';
         $mime_type = finfo_file($finfo, $file_path);
-        $file->setTitle($file_name);
+        $file->setTitle('albums.zip');
         $file->setDescription('This is a ' . $mime_type . ' document');
         $file->setMimeType($mime_type);
         $service->files->insert(
@@ -50,11 +53,11 @@ if (!empty($_POST)) {
                 'data' => file_get_contents($file_path),
                 'mimeType' => $mime_type
             )
-        );
+        );  
     finfo_close($finfo);
     header('location:' . $url);
     exit;
-    }
+    //}
 }
 include('./index.phtml');
 ?>

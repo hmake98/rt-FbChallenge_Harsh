@@ -177,7 +177,6 @@ body{
     margin-top: 10px;
     border-radius: 10px;
     background: #4267B2;
-    
 }
 
 .btn-main:hover{
@@ -195,6 +194,20 @@ body{
 #ops-msg{
     text-align: center;
 }
+
+.fa-arrow-left{
+    color: #ffffff;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.fa-arrow-left:hover{
+    color: #eee;
+    background: #34465d;
+    border-radius: 50%;
+    padding: 10px;
+}
+
 
 @media only screen and (max-width: 600px) {
     .img-circle {
