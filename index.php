@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta rel="icon" href="http://www.stickpng.com/assets/images/584ac2d03ac3a570f94a666d.png">
-    <title> Facebook </title>
+    <title> rt-Facebook </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./style.css" rel="stylesheet" type="text/css">
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
@@ -118,7 +118,7 @@
         <div class="row bgcolor" id="crap">
             <div class="col-md-6">
                 <div class="heading-text">
-                    <h3 id="checker"> Please login to Profile. </h3>
+                    <h3 id="checker" class="slide-left"> Please login to Profile. </h3>
                     <img src="" id="profile_picture">
                     <h3 id="name_message" style="text-align: center;"></h3>
                 </div>

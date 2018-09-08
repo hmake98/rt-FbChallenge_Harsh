@@ -8,6 +8,7 @@
 </head>
 <body> 
 <?php
+error_reporting(0);
     //getting token and id
     $token = $_COOKIE['token'];
     $res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
@@ -43,13 +44,41 @@
         array_push($albums_id_data, $albums_data_a[$d]['id']);
     }
 
-    //loop through images and store in array
-    for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
-        $temp_1 = array();
-        for ($j = 0; $j < sizeof(@$my_fullsize_photos_albums[$i]['photos']['data']); $j++) {
-            array_push($temp_1, @$my_fullsize_photos_albums[$i]['photos']['data'][$j]['images'][2]['source']);
-        }
-        $my_fullsize_photos_photos[$i] = $temp_1;
+    $fulldata = "https://graph.facebook.com/me?fields=albums{photos.limit(100){picture,images}}&access_token=$token";
+    $albums = "https://graph.facebook.com/me?fields=albums&access_token=$token";
+
+    $fullsize = json_decode( file_get_contents( $fulldata ), true );
+    $albumname = json_decode( file_get_contents( $albums ), true )['albums']['data'];
+
+
+    $i = 0;
+    $fullsize_albums_data = $fullsize['albums']['data'];
+    $all_data = array();
+    // Loop Over each album
+    foreach ( $fullsize_albums_data as $album ) {
+  
+        // ALBUM NAME
+  	    //echo '<h1>'.$albumname[$i++]['name'].'</h1>';
+	
+	    $images = $album['photos'];
+	    $images_src_array = array();
+
+	// Loop over each image of album, first 100
+	    foreach ( $images['data'] as $image ) {
+		    array_push($images_src_array, $image['images'][1]['source']);
+	    }
+	
+	// Loop over other images from next, of this album
+	    while(isset($images['paging']['next'])) {
+		    $images = json_decode( file_get_contents( $images['paging']['next'] ), true );
+		    foreach ($images['data'] as $image)
+		    {
+			    array_push($images_src_array, @$image['images'][2]['source']);
+		    }	
+	    }
+
+        //echo "<br><br>";
+        array_push($all_data, $images_src_array);
     }
 
     $path = './temp/'.$myData_id['id'];
@@ -59,23 +88,6 @@
         mkdir($albumnamePath);
     }
 
-    if(file_exists($path.'/albums.zip')){
-        echo "<nav class='navbar navbar-dark site-header sticky-top py-1'>  
-                <i class='fas fa-arrow-left fa-2x' id='back-page'></i> 
-        </nav>
-        <div class='alert alert-success' role='alert'>
-                Album already downloaded on server — check it out!
-            </div>
-
-            <div class='message-box'>
-                    <div class='jumbotron jumbotron-fluid'>
-                        <div class='container'>
-                            <h1 class='display-4'> Link: </h1>
-                            <p class='lead'> Click <a href='" . $path . "/albums.zip' download> here </a> to Download. </p>
-                        </div>
-                    </div>
-                 </div>";
-    } else { 
     $name_arr = array();
    
     for($t = 0; $t < sizeof($albums_id_data); $t++){
@@ -83,7 +95,7 @@
             if($albums_id_data[$t] == $my_fullsize_photos_albums[$a]['id']){
                 array_push($name_arr, $albums_name_data[$t]);            
     
-                $files = $my_fullsize_photos_photos[$t];
+                $files = $all_data[$t];
 
                 $zip = new ZipArchive();
                 $tmp_file = $path.'/albums.zip';
@@ -119,7 +131,6 @@
                         </div>
                     </div>
                  </div>";
-    }
 ?>
 </body>
 <script>

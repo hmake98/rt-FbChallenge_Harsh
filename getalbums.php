@@ -7,6 +7,7 @@
 <body>
     <div id="loader" class="loading">Loading&#8230;</div>
 <?php
+error_reporting(0);
     //getting tokens and files contents from api 
     @$token = $_COOKIE['token'];
     @$res = file_get_contents("https://graph.facebook.com/me?fields=albums&access_token=$token");
@@ -139,21 +140,13 @@
     //scripts that redirect to the download page
     for($j = 0; $j < sizeof($myAlbumsNameArr); $j++) {
         echo "<script type='text/javascript'>
-            
-            /*document.getElementById('$myAlbumsIdArr[$j]').addEventListener('click', function(){
-                window.location.href='getphotos.php?id=".$j. "';
-            });*/
-            
-            /*document.getElementById('$myAlbumsIdArr[$j]').addEventListener('click', function(){
-                window.location.href='slideshow.php?id=".$j. "';
-            });*/
-
             document.getElementById('id_$j').addEventListener('click', function(){
                 window.location.href='getzip.php?id=" . $j . "';
             });
 
             document.getElementById('al_$j').addEventListener('click', function(){
                 window.location.href='upload.php?id=".$j."';
+                loadPage();
             });
             </script>";
     }

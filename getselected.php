@@ -8,6 +8,7 @@
 </head>
 <body>
 <?php
+error_reporting(0);
 //getting token
 $token = $_COOKIE['token'];
 $res_id = file_get_contents("https://graph.facebook.com/me?fields=id&access_token=$token");
@@ -26,6 +27,42 @@ $my_fullsize_photos_albums = $my_fullsize_photos_data['albums']['data'];
 
 $my_fullsize_photos_photos = array();
 $myarr_id = array();
+
+$fulldata = "https://graph.facebook.com/me?fields=albums{photos.limit(100){picture,images}}&access_token=$token";
+$albums = "https://graph.facebook.com/me?fields=albums&access_token=$token";
+
+
+$fullsize = json_decode( file_get_contents( $fulldata ), true );
+$albumname = json_decode( file_get_contents( $albums ), true )['albums']['data'];
+
+    $i = 0;
+    $fullsize_albums_data = $fullsize['albums']['data'];
+
+    $all_data = array();
+    $temp_1 = array();
+    // Loop Over each album
+    foreach ( $fullsize_albums_data as $album ) {
+	
+	@$images = $album['photos']['data'];
+    $images_src_array = array();
+
+	// Loop over each image of album, first 100
+	    foreach ($images as $image ) {
+		    array_push($images_src_array, $image['images'][1]['source']);
+	    }
+	
+	// Loop over other images from next, of this album
+	    while(isset($images['paging']['next'])) {
+		    $images = json_decode( file_get_contents( $images['paging']['next'] ), true );
+		    foreach ($images['data'] as $image)
+		    {
+			    array_push($images_src_array, @$image['images'][1]['source']);
+		    }	
+	    }
+
+        //echo "<br><br>";
+        array_push($all_data, $images_src_array);
+    }
 
 //loop though images
 for ($i = 0; $i < sizeof($my_fullsize_photos_albums); $i++) {
@@ -74,7 +111,7 @@ if (isset($_POST['submit'])) {
                 if($selected_arr[$l] == $myarr_id[$q]){
                     array_push($album_name_data, $myData_albums[$l]['name']);
 
-                    $files = $selected_photos_data[$l];
+                    $files = $all_data[$l];
 
                     $zip = new ZipArchive();
                     $tmp_file = $path . '/selected_photos.zip';
@@ -84,7 +121,7 @@ if (isset($_POST['submit'])) {
 
                     $r = 1;
                     foreach ($files as $file) {
-                        $download_file = file_get_contents($file);
+                        @$download_file = file_get_contents(@$file);
                         $zip->addFromString($album_name_data[$l].'/'.$album_name_data[$l].'-'.$r.'.jpg', $download_file);
                         $r++;
                     }
