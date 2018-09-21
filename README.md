@@ -48,4 +48,4 @@ https://rtcamp-fb-challenge.000webhostapp.com/
 * GitHub
 
 ### Current Issues
-* Albums Components needs reload for appear.
+* Albums Components needs reload for appear for First time.
