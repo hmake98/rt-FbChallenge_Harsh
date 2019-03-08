@@ -20,7 +20,7 @@
         var access_token;
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '299669190798021',
+                appId: '',
                 cookie: true,
                 xfbml: true,
                 version: 'v3.1'
